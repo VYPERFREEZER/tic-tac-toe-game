@@ -51,7 +51,7 @@
 		</style>
 	</head>
 	<body>
-		<h1>Tic Tac Toe Game</h1>
+		<h1>Welcome to my tic Tac Toe Game</h1>
 		<h2 id="playerTurn" ></h2>
 		<div class="container">
 			<div class="row">
