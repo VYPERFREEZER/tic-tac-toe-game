@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Tic Tac Toe</title>
+		<meta name="viewport", content="width=device-width, initial-scale=1.0">
+		<style>
+			*{
+
+				text-align: center;
+				font-style: italic;
+				justify-content: center;
+			}
+			body{
+			color : black;
+			background-color: skyblue;
+			font-style: italic;
+			font-weight: bold;
+			font-size: 1rem;
+
+			}
+			.container{
+			width: 50%;
+			margin: auto;
+			}
+
+			.square{
+			width: 60px;
+			height: 60px;
+			margin: 1px;
+			padding: 5px;
+			border: 2px solid black;
+			border-radius: 5px;
+			font-weight: bold;
+			}
+			.row{
+			display: flex;
+
+			}
+			#reset{
+			height: 35px;
+			width: auto;
+			background-color: lightgreen;
+			padding: 5px;
+			padding-left: 10px;
+			padding-right: 10px;
+			margin: 10px;
+			border: 1px solid green;
+			border-radius: 3px;
+			font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Welcome to my tic Tac Toe Game</h1>
+		<h2 id="playerTurn" ></h2>
+		<div class="container">
+			<div class="row">
+			<button class="square"></button>
+			<button class="square"></button>
+			<button class="square"></button>
+			</div>
+
+			<div class="row">
+			<button class="square"></button>	
+			<button class="square"></button>	
+			<button class="square"></button>	
+			</div>
+
+			<div class="row">
+			<button class="square"></button>	
+			<button class="square"></button>	
+			<button class="square"></button>	
+			</div>
+
+			<button id="reset">Reset Board</button>
+			<h2 id="results"></h2>
+
+
+		</div>	
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function(){
+				let playerTurn = "X";
+				const playerTurnHeader = document.querySelector("#playerTurn");
+				playerTurnHeader.innerText = `Player Turn: ${playerTurn}`;
+
+				const results = document.getElementById("results");
+				const resetButton = document.getElementById("reset");
+
+				resetButton.onclick = ()=>{
+
+					resetBoard();
+				};
+			
+
+
+				//initialise an empty board
+				let boardState = Array(9).fill("");
+
+				const buttons = document.querySelectorAll(".square");
+				buttons.forEach((button, index) =>{
+				
+
+					button.addEventListener("click", ()=>{
+						if (boardState[index] === ""){
+							button.innerText = playerTurn;
+							
+							button.style.backgroundColor = playerTurn === "X" ? "orange" : "green";
+
+							boardState[index] = playerTurn;
+							if (checkWinner(playerTurn)){
+								results.style.display = "block";
+
+								results.innerText = `Player ${playerTurn} Won!!`;
+
+							}else if(boardState.every((cell)=>cell !=="")){
+
+								results.style.display = "block";
+								results.innerText = "Its a Draw!!";
+								
+							}else{
+
+								playerTurn = playerTurn === "X" ? "O" : "X";
+							
+								playerTurnHeader.innerText = `Player Turn: ${playerTurn}`;
+							}
+
+						}else{
+
+							alert("Square already filled!!");
+						}
+					});
+				});
+
+				function checkWinner(symbol){
+
+					const winningPatterns = [
+
+						//rows
+						[0,1,2], [3,4,5], [6,7,8],
+						//cols
+						[0,3,6], [1,4,7], [2,5,8],
+						//diagonals
+						[0,4,8], [2,4,6]
+					];
+
+					return winningPatterns.some((pattern)=> 
+						pattern.every((index)=>boardState[index]=== symbol));
+				};
+
+				function resetBoard(){
+
+					boardState = Array(9).fill("");
+					buttons.forEach((button)=>{
+
+						button.innerText = "";
+						button.style.backgroundColor = "white";
+					})
+
+					playerTurn = "X";
+					playerTurnHeader.innerText = `Player Turn: ${playerTurn}`;
+					results.style.display = "none";
+				};
+			
+			});
+		</script>
+	</body>
+</html>
